@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<mujoco model="orcahand scene">
+  
+  <!-- Camera placement -->
+  <statistic extent="0.3" center="0.2 0. 0.3"/>
+  <visual>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <quality shadowsize="8192"/>
+    <global azimuth="220" elevation="-30"/>
+  </visual>
+
+  <!-- Background -->
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+      markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    <texture name="dexcube" type="2d" file="../assets/reorientation_cube_textures/dex_cube.png"/>
+    <material name="dexcube" texture="dexcube"/>
+    <mesh name="cube_mesh" file="meshes/dex_cube.obj" scale="0.0225 0.0225 0.0225"/>
+  </asset>
+  
+  <worldbody>
+    <!-- Lighting and floor -->
+    <light pos="0 0 1"/>
+    <light pos="0.3 0 1.5" dir="0 0 -1" directional="true"/>
+    <geom name="floor" pos="0 0 0" size="0 0 0.05" type="plane" material="groundplane"/>
+
+    <!-- Target object -->
+    <body name="goal" mocap="true" pos="0.325 0.17 0.0475">
+      <geom type="mesh" mesh="cube_mesh" material="dexcube" contype="0" conaffinity="0" density="0" group="2"/>
+      <geom type="box" size=".0225 .0225 .0225" mass=".050" group="3"/>
+    </body>
+    <!-- Cube -->
+    <body name="cube" pos="0.11 0.0 0.1" quat="1 0 0 0" childclass="cube">
+      <freejoint name="cube_freejoint"/>
+      <geom type="mesh" mesh="cube_mesh" material="dexcube" contype="0" conaffinity="0" density="0" group="2"/>
+      <geom name="cube" type="box" size=".0225 .0225 .0225" mass=".050" group="3"/>
+      <site name="cube_center" pos="0 0 0" group="4"/>
+    </body>
+  </worldbody>
+
+  <keyframe>
+    <key name="home_right"
+      qpos="0.0853076 -0.180837 0.2187 -0.528274 -0.837532 -0.0684312 -0.121588 0.14 0.00215314 -0.00929562 0.00159521 0.000359934 0.000629233 0.750278 0.610822 -4.99064e-05 0.564907 0.824741 0.00155874 0.562212 0.813664 0.000819002 0.521841 0.577139"
+      qvel="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+      ctrl="0 0 0 0 0 0.754805 0.611563 0 0.571022 0.825433 0 0.571022 0.814353 0 0.526018 0.578051"
+      mpos="-0.111251 -0.0645054 0.214711"
+      mquat="0.999563 0.0175669 0.0151616 -0.0183228"/>
+    <key name="home_left"
+        qpos="0.00236401 -0.180987 0.215153 -0.930314 -0.312926 -0.0333051 0.188371 -0.141514 0.00190274 -0.00935164 0.00213373 0.000479177 -0.000810979 0.748329 0.61056 0.00113058 0.562921 0.824494 -0.000762469 0.563089 0.813423 -0.0021103 0.520522 0.57682"
+        qvel="1.19613e-17 1.18516e-15 1.2189e-15 4.40709e-15 1.31151e-15 -2.19555e-15 1.019e-15 8.13014e-18 3.06431e-17 1.95994e-17 2.62722e-18 3.66918e-18 5.54035e-15 5.43839e-15 -1.02271e-17 5.34306e-15 5.45911e-15 4.80958e-18 -5.33665e-15 -5.50816e-15 1.83117e-17 5.51005e-15 5.52609e-15"
+        ctrl="0 0 0 0 0 0.754805 0.611563 0 0.571022 0.825433 0 0.571022 0.814353 0 0.526018 0.578051"
+        mpos="-0.111251 -0.0645054 0.214711"
+        mquat="0.999563 0.0175669 0.0151616 -0.0183228"
+      />
+      <key
+        name="calibration"
+        qpos="0.0915593 -0.148304 0.227598 0.797464 -0.601443 -0.0423147 -0.0229523 0.141203 0.00121376 -0.00767201 0.000802921 3.81337e-05 0.00024245 -0.00352619 -0.000632404 -7.29601e-08 -0.00445065 -0.000642072 -0.000228345 -0.00445825 -0.000643712 -0.000997782 -0.00302019 -0.000636885"
+        qvel="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+        ctrl="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+        mpos="0.325 0.17 0.0475"
+        mquat="1 0 0 0"
+      />
+  </keyframe>
+
+  <sensor>
+    <!-- cube. -->
+    <framepos name="cube_position" objtype="body" objname="cube"/>
+    <framequat name="cube_orientation" objtype="body" objname="cube"/>
+    <framelinvel name="cube_linvel" objtype="body" objname="cube"/>
+    <frameangvel name="cube_angvel" objtype="body" objname="cube"/>
+    <frameangacc name="cube_angacc" objtype="body" objname="cube"/>
+    <framezaxis name="cube_upvector" objtype="body" objname="cube"/>
+
+    <!-- hand. -->
+    <framepos name="palm_position" objtype="site" objname="grasp_site"/>
+    <framepos name="th_tip_position" objtype="site" objname="left_thumb_tip" reftype="site" refname="grasp_site"/>
+    <framepos name="if_tip_position" objtype="site" objname="left_index_tip" reftype="site" refname="grasp_site"/>
+    <framepos name="mf_tip_position" objtype="site" objname="left_middle_tip" reftype="site" refname="grasp_site"/>
+    <framepos name="rf_tip_position" objtype="site" objname="left_ring_tip" reftype="site" refname="grasp_site"/>
+    <framepos name="pf_tip_position" objtype="site" objname="left_pinky_tip" reftype="site" refname="grasp_site"/>
+
+    <!-- goal. -->
+    <framequat name="cube_goal_orientation" objtype="body" objname="goal"/>
+    <framezaxis name="cube_goal_upvector" objtype="body" objname="goal"/>
+  </sensor>
+
+</mujoco>

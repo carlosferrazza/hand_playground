@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<mujoco model="orcahand_left">
+  
+  <!-- eulerseq "XYZ" corresponds to URDF "rpy" -->
+  <compiler angle="radian" eulerseq="XYZ" meshdir="assets"/>
+  
+  <default>
+    <mesh scale="0.001 0.001 0.001"/>
+    <!-- Visual classes -->
+    <default class="visual_base">
+      <geom conaffinity="0" condim="1" contype="0" group="2" type="mesh"/>
+      <default class="skin">
+        <geom material="white"/>
+      </default>
+      <default class="bone">
+        <geom material="black"/>
+      </default>
+    </default>
+    <!-- Collision class -->
+    <default class="collision">
+      <geom group="3" friction="0.2" solref="0.02 1.5" solimp="0.9 0.99 0.001"/>
+      <default class="collision_tip">
+        <geom solimp="0.015 1 0.001" condim="3" friction="0.9 0.02 0.01"/>
+        <!-- Replace with this to better account for torsional friction -->
+        <!-- <geom solimp="0.015 1 0.001" condim="6" friction="0.9 0.02 0.01"/> -->
+      </default>
+    </default>
+    <!-- Joints -->
+    <joint armature="0.001" damping="0.1" frictionloss="0.001" limited="true" margin="0.01" type="hinge"/>
+    <position ctrllimited="true" forcelimited="true" forcerange="-1 1" kp="1.5"/>
+  </default>
+
+  <default>
+    <default class="cube">
+      <geom friction=".7 0.05" conaffinity="2" condim="3"/>
+    </default>
+  </default>
+
+  <asset>
+    <!-- Materials -->
+    <material name="white" rgba="1 1 1 1" shininess="0.5" specular="0.1"/>
+    <material name="black" rgba="0.25 0.25 0.25 1" shininess="0.2" specular="0.05"/>
+    <material name="invisible" rgba="1 1 1 0" shininess="0" specular="0"/>
+  </asset>
+
+  <option timestep="0.01" integrator="Euler" iterations="5" ls_iterations="8">
+    <flag eulerdamp="disable"/>
+  </option>
+
+  <custom>
+    <numeric data="30" name="max_contact_points"/>
+    <numeric data="12" name="max_geom_pairs"/>
+  </custom>
+
+</mujoco>

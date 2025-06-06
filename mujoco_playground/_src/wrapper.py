@@ -145,6 +145,7 @@ class BraxAutoResetWrapper(Wrapper):
         done = jp.reshape(done, [x.shape[0]] + [1] * (len(x.shape) - 1))
       return jp.where(done, x, y)
 
+    # state.info['raw_obs'] = state.obs
     data = jax.tree.map(where_done, state.info['first_state'], state.data)
     obs = jax.tree.map(where_done, state.info['first_obs'], state.obs)
     return state.replace(data=data, obs=obs)

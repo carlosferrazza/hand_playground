@@ -171,6 +171,17 @@ class RSLRLBraxWrapper(VecEnv):
         "log": {},
     }
 
+    # if type(info["raw_obs"]) == dict:
+    #   info_ret["observations"]["raw"] = {
+    #     "obs": _jax_to_torch(info["raw_obs"]["state"]),
+    #     "critic_obs": _jax_to_torch(info["raw_obs"]["privileged_state"]) if self.asymmetric_obs else None
+    #   }
+    # else:
+    #   info_ret["observations"]["raw"] = {
+    #     "obs": _jax_to_torch(info["raw_obs"]),
+    #     "critic_obs": None,
+    #   }
+
     if "last_episode_success_count" in info:
       last_episode_success_count = (
           _jax_to_torch(info["last_episode_success_count"])[done > 0]  # pylint: disable=unsubscriptable-object
