@@ -112,3 +112,5 @@ The texture used in the rough terrain for the locomotion environments is from [P
 All other content in this repository is licensed under the Apache License, Version 2.0. A copy of this license is provided in the top-level [LICENSE](LICENSE) file in this repository. You can also obtain it from https://www.apache.org/licenses/LICENSE-2.0.
 
 This is not an officially supported Google product.
+
+Specifically for `hand_playground`: The ORCA Hands description files and assets are adapted from: https://github.com/orcahand/orcahand_description
